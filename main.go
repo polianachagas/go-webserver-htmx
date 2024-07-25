@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io"
+	"html/template"
 	"log"
 	"net/http"
 )
@@ -11,8 +11,8 @@ func main() {
 	fmt.Println("oi")
 
 	h1 := func(w http.ResponseWriter, r *http.Request) {
-		io.WriteString(w, "Hello")
-		io.WriteString(w, r.Method)
+		tmpl := template.Must(template.ParseFiles("index.html"))
+		tmpl.Execute(w, nil)
 	}
 	http.HandleFunc("/", h1)
 
