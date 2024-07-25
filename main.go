@@ -1,18 +1,26 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 )
 
-func main() {
-	fmt.Println("oi")
+type Film struct {
+	Title    string
+	Director string
+}
 
+func main() {
 	h1 := func(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.Must(template.ParseFiles("index.html"))
-		tmpl.Execute(w, nil)
+		films := map[string][]Film{
+			"Films": {
+				{Title: "La la Land", Director: "Damien Chazelle"},
+				{Title: "Everything Everywhere All At Once", Director: "Daniel Kwan"},
+			},
+		}
+		tmpl.Execute(w, films)
 	}
 	http.HandleFunc("/", h1)
 
